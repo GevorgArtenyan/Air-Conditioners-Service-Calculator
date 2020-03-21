@@ -1,0 +1,8 @@
+{% extends 'airconapp/base.html' %}
+
+{% block content %}
+<option value="">---------</option>
+{% for model in models %}
+<option value="{{ model.pk }}">{{ model.name }}</option>
+{% endfor %}
+{% endblock %}

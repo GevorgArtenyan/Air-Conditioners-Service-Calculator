@@ -1,8 +1,10 @@
-from django.urls import path
+from django.urls import include, path
+
 from . import views
 
 urlpatterns = [
-    path('/', views.home, name='home'),
-    path('result/', views.result, name='result'),
-    path('api/', views.ModelAPIListView.as_view(), name='model-list'),
+    path('', views.ACServiceCalcListView.as_view(), name='calc_list'),
+    path('add/', views.ACServiceCalcCreateView.as_view(), name='calc_add'),
+    path('<int:pk>/', views.ACServiceCalcUpdateView.as_view(), name='calc_change'),
+    path('ajax/load-models/', views.load_models, name='ajax_load_models'),  # <-- this one here
 ]

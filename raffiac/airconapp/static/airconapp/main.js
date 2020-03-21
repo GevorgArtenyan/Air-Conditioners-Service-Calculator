@@ -1,34 +1,22 @@
-var btn = document.getElementById('btn')
-var container = document.getElementById('ourcontainer')
-var url = 'http://127.0.0.1:8000/api/'
+$("#id_brand").change(function () {
+  var url = $("#ACServiceCalcForm").attr("data-models-url");
+  var brandId = $(this).val();
 
-$.ajax({
-    method: 'GET',
+  $.ajax({
     url: url,
-    success: function(data) {
-        console.log(data)
-        console.log('success')
+    data: {
+      'brand': brandId
     },
-    error: function(error_data) {
-        console.log('error')
+    success: function (data) {
+      $("#id_model").html(data);
     }
-})
+  });
 
-$('.model').change(function() {
-    var ourRequest = new XMLHttpRequest();
-    ourRequest.open("GET", url);
-    ourRequest.onload = function(){
-        var OurData = JSON.parse(ourRequest.responseText);
-        renderHTML(OurData);
-    }
-    ourRequest.send()
 });
 
-
-function renderHTML(data) {
-    var displayunit = $('.model option:selected').not('#default').text();
-    var htmlString = "";
-    for (i=0; i < data.length; i++){
-    };
+$('#calculate').click(function(){
+    var sqrFt = $('#id_square_feet').val()
+    aler(sqrFt)
+})
 
 

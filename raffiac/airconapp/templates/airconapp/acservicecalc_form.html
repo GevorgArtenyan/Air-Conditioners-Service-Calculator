@@ -1,0 +1,15 @@
+{% extends 'airconapp/base.html' %}
+
+{% block content %}
+
+  <h2>Calculation Form</h2>
+
+  <form method="post" id="ACServiceCalcForm" data-models-url="{% url 'ajax_load_models' %}" novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit" id="calculate">Calculate</button>
+    <a href="{% url 'calc_list' %}">Nevermind</a>
+  </form>
+{% endblock %}

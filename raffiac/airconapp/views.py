@@ -1,26 +1,27 @@
 from django.shortcuts import render
-from .models import Model, Brand
-from rest_framework import generics
-from django.core import serializers
-from .serializers import ModelSerializer
-from django.http import JsonResponse
-from .forms import AirConCalc
+from django.views.generic import ListView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from .models import ACServiceCalc, Model, Brand
+from .forms import ACServiceCalcForm
 
-class ModelAPIListView(generics.ListAPIView):
-    lookup_field = 'pk'
-    queryset = Model.objects.all()
-    serializer_class = ModelSerializer
-
-def json(request):
-    model_json = serializers.serialize('json', Model.objects.all())
-    data = {'modeljson':model_json}
-    return JsonResponse(data)
-
-def home(request):
-    brand = Brand.objects.all()
-    form = AirConCalc()
-    return render(request, 'airconapp/home.html', {"brand":brand, "form":form})
+class ACServiceCalcListView(ListView):
+    model = ACServiceCalc
+    context_object_name = 'calcs'
 
 
-def result(request):
-    return render(request, 'airconapp/result.html')
+class ACServiceCalcCreateView(CreateView):
+    model = ACServiceCalc
+    form_class = ACServiceCalcForm
+    success_url = reverse_lazy('calc_list')
+
+
+class ACServiceCalcUpdateView(UpdateView):
+    model = ACServiceCalc
+    form_class = ACServiceCalcForm
+    success_url = reverse_lazy('calc_list')
+
+
+def load_models(request):
+    brand_id = request.GET.get('brand')
+    models = Model.objects.filter(brand_id=brand_id).order_by('name')
+    return render(request, 'airconapp/model_dropdown_list_options.html', {'models': models})
