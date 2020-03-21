@@ -15,6 +15,6 @@ class ACServiceCalcForm(forms.ModelForm):
                 brand_id = int(self.data.get('brand'))
                 self.fields['model'].queryset = Model.objects.filter(brand_id=brand_id).order_by('name')
             except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
+                pass
         elif self.instance.pk:
             self.fields['model'].queryset = self.instance.brand.model_set.order_by('name')
